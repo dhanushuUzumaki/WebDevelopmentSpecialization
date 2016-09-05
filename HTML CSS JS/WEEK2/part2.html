@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guessing game</title>
+</head>
+<body onload="do_game()">
+
+<script>
+    var my_colors = ["red", "blue", "green", "yellow", "orange", "cyan", "black", "brown", "greenyellow" ,"lightyellow",
+        "lawngreen"];
+    my_colors.sort();
+    finished = false;
+    function do_game() {
+        var my_guess = my_colors[Math.floor(Math.random() * my_colors.length)];
+        var count = 0;
+        while(!finished) {
+            var user_guess = prompt("I have guessed a color from this list \n\n" + my_colors + "\n\n" +
+                    "Try to guess it");
+            count++;
+            finished = check_guess(user_guess, my_guess);
+        }
+        if(finished) {
+            var element = document.getElementsByTagName("body")[0];
+            element.style.background = my_guess;
+            alert("You are correct " + my_guess + " is the color is guessed\n\n you took " + count + " guesses to find it");
+        }
+    }
+
+    function check_guess(user_guess, my_guess) {
+        var user_index = my_colors.indexOf(user_guess);
+        var my_index = my_colors.indexOf(my_guess);
+        if(user_guess == "") {
+            alert("Enter a color");
+            return false;
+        }
+        if(user_guess < 0) {
+            alert("Enter one of the colors in the list");
+            return false;
+        }
+        if(user_guess < my_guess) {
+            alert("Your color is alphabetically lower than mine");
+            return false;
+        }
+        if(user_guess > my_guess) {
+            alert("Your color is alphabetically higher than mine");
+            return false;
+        }
+        if(user_guess == my_guess) {
+            return true;
+        }
+        return false;
+    }
+</script>
+</body>
+</html>

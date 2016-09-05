@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guessing game</title>
+</head>
+<body onload="do_game()">
+
+<script>
+    var my_colors = ["red", "blue", "green", "yellow", "orange", "cyan", "black", "brown", "greenyellow" ,"lightyellow",
+                    "lawngreen"];
+    my_colors.sort();
+    finished = false;
+    function do_game() {
+        var my_guess = my_colors[Math.floor(Math.random() * my_colors.length)];
+
+        while(!finished) {
+            var user_guess = prompt("I have guessed a color from this list \n\n" + my_colors + "\n\n" +
+                    "Try to guess it");
+            if(user_guess == my_guess)
+                finished = true;
+        }
+    }
+</script>
+</body>
+</html>

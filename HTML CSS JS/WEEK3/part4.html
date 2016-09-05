@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matching Game</title>
+    <style>
+        div{
+            width:49%;
+            height: 250px;
+            display: inline-block;
+        }
+        h3{
+            display: inline;
+        }
+        p{
+            font-size: xx-small;
+        }
+        #left_side{
+            position: absolute;
+            width: 330px;
+            height:250px;
+        }
+        #right_side{
+            position: absolute;
+            width: 330px;
+            height:250px;
+            left:330px;
+            border-left: 1px solid black;
+        }
+        img{
+            position: absolute;
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body onload="generateFaces()">
+<h3>Matching Game</h3>
+<p>Click on the extra smiling face on the left.</p>
+<div id="left_side">
+
+</div>
+<div id="right_side">
+
+</div>
+<script>
+    var numberOfFaces = 5;
+    var leftSide = document.getElementById("left_side");
+    var rightSide = document.getElementById("right_side");
+    var theBody = document.getElementsByTagName("body")[0];
+
+    var generateFaces = function () {
+        for(var i = 0 ; i < numberOfFaces; i++) {
+            var imgElem = document.createElement("img");
+            imgElem.src = "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+            imgElem.style.left = Math.floor(Math.random() * 250) + "px";
+            imgElem.style.top = Math.floor(Math.random() * 220) + "px";
+            leftSide.appendChild(imgElem);
+        }
+        leftSide.lastChild.onclick = function nextLevel(event) {
+            event.stopPropagation();
+            numberOfFaces += 5;
+            while(leftSide.firstChild)
+                leftSide.removeChild(leftSide.firstChild);
+            while(rightSide.firstChild)
+                rightSide.removeChild(rightSide.firstChild);
+            generateFaces();
+        };
+        theBody.onclick = function gameOver(event) {
+            event.stopPropagation();
+            alert("Game Over!");
+            leftSide.lastChild.onclick = null;
+            theBody.onclick = null;
+        };
+        var leftSideImages = leftSide.cloneNode(true);
+        leftSideImages.removeChild(leftSideImages.lastChild);
+        rightSide.appendChild(leftSideImages);
+    }
+</script>
+</body>
+</html>
