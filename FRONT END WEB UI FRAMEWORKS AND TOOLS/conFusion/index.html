@@ -11,10 +11,10 @@
     <title>Ristorante Con Fusion</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/mystyles.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-social.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -66,7 +66,7 @@
                     Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a data-toggle="modal" data-target="#loginModal">
+                <li><a id="loginButton">
                     <span class="glyphicon glyphicon-log-in"></span> Login</a>
                 </li>
             </ul>
@@ -80,7 +80,7 @@
         <!-- Modal content-->
         <div class="modal-content hidden-xs" style="width: 105%">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close closeLogin" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Login </h4>
             </div>
             <div class="modal-body">
@@ -95,7 +95,7 @@
                         <label><input type="checkbox">Remember me</label>
                     </div>
                     <button type="submit" class="btn btn-info btn-sm">Sign In</button>
-                    <button type="button" class="btn btn-default btn-sm"
+                    <button type="button" class="btn btn-default btn-sm closeLogin"
                             data-dismiss="modal">Cancel
                     </button>
 
@@ -104,7 +104,7 @@
         </div>
         <div class="modal-content hidden-sm hidden-md hidden-lg">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close">&times;</button>
                 <h4 class="modal-title">Login </h4>
             </div>
             <div class="modal-body">
@@ -119,8 +119,7 @@
                         <label><input type="checkbox">Remember me</label>
                     </div>
                     <button type="submit" class="btn btn-info btn-sm">Sign In</button>
-                    <button type="button" class="btn btn-default btn-sm"
-                            data-dismiss="modal">Cancel
+                    <button type="button" class="btn btn-default btn-sm">Cancel
                     </button>
 
                 </form>
@@ -137,7 +136,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close closeReservation" >&times;</button>
                 <h4 class="modal-title">Reserve Table</h4>
             </div>
             <div class="modal-body">
@@ -180,8 +179,7 @@
                             <button class="btn btn-primary">Reserve</button>
                         </div>
                         <div class="col-sm-1 col-sm-offset-1">
-                            <button class="btn btn-default"
-                                    data-dismiss="modal">Cancel
+                            <button class="btn btn-default closeReservation">Cancel
                             </button>
                         </div>
                     </div>
@@ -221,7 +219,7 @@
             <div class="col-xs-12 col-sm-2">
                 <p style="padding:20px;"></p>
                 <a href="#reserve" type="button" class="btn btn-warning btn-block"
-                   data-toggle="modal" data-target="#reserveModal">Reserve Tables</a>
+                   id="reserverButton">Reserve Tables</a>
             </div>
         </div>
     </div>
@@ -293,6 +291,14 @@
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
+                <div class="btn-group" id="carouselButtons">
+                    <button class="btn btn-danger btn-xs" id="carousel-pause">
+                        <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-danger btn-xs" id="carousel-play">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -475,10 +481,35 @@
     </div>
 </footer>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#mycarousel").carousel( { interval: 2000 } );
+        $("#carousel-pause").click(function(){
+            $("#mycarousel").carousel('pause');
+        });
+        $("#carousel-play").click(function(){
+            $("#mycarousel").carousel('cycle');
+        });
+
+        $("#loginButton").click(function () {
+           $("#loginModal").modal("toggle");
+        });
+        $(".closeLogin").click(function () {
+            $("#loginModal").modal("hide");
+        });
+        $("#reserverButton").click(function () {
+            $("#reserveModal").modal("toggle");
+        });
+        $(".closeReservation").click(function () {
+            $("#reserveModal").modal("hide");
+        });
+    });
+</script>
+
 
 </body>
 
