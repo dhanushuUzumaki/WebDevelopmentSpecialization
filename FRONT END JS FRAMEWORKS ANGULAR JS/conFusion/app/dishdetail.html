@@ -64,7 +64,7 @@
                     </blockquote>
                     </ul>
                 <form class="form-horizontal" name="commentForm"
-                		ng-submit="submitComment()" novalidate>
+                        ng-submit="submitComment()" novalidate>
                     <div class="form-group" ng-class="{ 'has-error' : commentForm.name.$error.required && !commentForm.name.$pristine }">
                         <label for="name" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
@@ -107,6 +107,8 @@
 <!-- build:js scripts/main.js -->
     <script src="../bower_components/angular/angular.min.js"></script>
     <script src="scripts/app.js"></script>
+    <script src="scripts/controllers.js"></script>
+    <script src="scripts/services.js"></script>
 <!-- endbuild -->
 
 </body>
