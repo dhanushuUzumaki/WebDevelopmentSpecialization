@@ -8,7 +8,15 @@ angular.module('confusionApp')
             $scope.filtText = '';
             $scope.showDetails = false;
 
-            $scope.dishes= menuFactory.getDishes();
+            $scope.showMenu = false;
+            $scope.message = "Loading ...";
+                    menuFactory.getDishes().query(function(response) {
+                    $scope.dishes = response;
+                    $scope.showMenu = true;
+                },
+                function(response) {
+                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                });
 
                         
             $scope.select = function(setTab) {
@@ -48,7 +56,7 @@ angular.module('confusionApp')
                         
         }])
 
-        .controller('FeedbackController', ['$scope', function($scope) {
+        .controller('FeedbackController', ['$scope', 'feedbackFactory', function($scope, feedbackFactory) {
             
             $scope.sendFeedback = function() {
                 
@@ -59,55 +67,114 @@ angular.module('confusionApp')
                     console.log('incorrect');
                 }
                 else {
+                    feedbackFactory.getFeedback().save($scope.feedback)
+                    .$promise.then(function(response) {
                     $scope.invalidChannelSelection = false;
                     $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
                     $scope.feedback.mychannel="";
                     $scope.feedbackForm.$setPristine();
                     console.log($scope.feedback);
+                    });
+                    
                 }
             };
         }])
 
         .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
-
-            var dish= menuFactory.getDish(parseInt($stateParams.id,10));
             
-            $scope.dish = dish;
-            
+            $scope.showDish = false;
+            $scope.message="Loading ...";
+            $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
+             .$promise.then(
+                            function(response){
+                                $scope.dish = response;
+                                $scope.showDish = true;
+                            },
+                            function(response) {
+                                $scope.message = "Error: "+response.status + " " + response.statusText;
+                            }
+            );
         }])
 
-        .controller('DishCommentController', ['$scope', function($scope) {
+        .controller('DishCommentController', ['$scope', 'menuFactory', function($scope, menuFactory) {
             
-            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+            $scope.comment = {rating:5, comment:"", author:"", date:""};
             
             $scope.submitComment = function () {
                 
-                $scope.mycomment.date = new Date().toISOString();
-                console.log($scope.mycomment);
+                $scope.comment.date = new Date().toISOString();
+                console.log($scope.comment);
                 
-                $scope.dish.comments.push($scope.mycomment);
+                $scope.dish.comments.push($scope.comment);
+                menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
                 
                 $scope.commentForm.$setPristine();
                 
-                $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+                $scope.comment = {rating:5, comment:"", author:"", date:""};
             }
         }])
 
         // implement the IndexController and About Controller here
         
         .controller('IndexController',['$scope','menuFactory' , 'corporateFactory', function($scope,
-            menuFactory , corporateFactory ){
+            menuFactory , corporateFactory ){                    
+                        $scope.showDish = false;
+                        menuFactory.getDishes().get({id:0})
+                        .$promise.then(
+                            function(response){
+                                $scope.specialDish = response;
+                                $scope.showDish = true;
+                            },
+                            function(response) {
+                                $scope.message = "Error: "+response.status + " " + response.statusText;
+                            }
+                        );                        
+                        $scope.message="Loading ...";
 
-            $scope.specialDish = menuFactory.getDish(0);
-            $scope.promotion = menuFactory.getPromotion(0);
-            $scope.leader = corporateFactory.getLeader(3);
+                        $scope.showPromotion = false;
+                        $scope.promotionMessage = "Loading ...";
+            menuFactory.getPromotion().get({id:0})
+            .$promise.then(
+                function(response) {
+                    $scope.promotion = response;
+                    $scope.showPromotion = true;
+
+                },
+                function(response) {
+                    $scope.promotionMessage = "Error: "+response.status+" "+response.statusText;
+                }
+                );
+
+            $scope.showLeader = false;
+            $scope.leaderMessage = "Loading ...";
+            //$scope.leader = corporateFactory.getLeader(3);
+            corporateFactory.getLeaders().get({id:3})
+            .$promise.then(
+                function(response) {
+                    $scope.leader = response;
+                    $scope.showLeader = true;
+                },
+                function(response) {
+                    $scope.leaderMessage = "Error: "+response.status+" "+response.statusText;
+                }
+                );
 
 
         }])
 
         .controller('AboutController', ['$scope', 'corporateFactory', function($scope, 
             corporateFactory){
-            $scope.leaders = corporateFactory.getLeaders();
+            //$scope.leaders = corporateFactory.getLeaders();
+            
+            $scope.showLeaders = false;
+            $scope.leadersMessage = "Loading ...";
+            corporateFactory.getLeaders().query(function(response) {
+                $scope.leaders = response;
+                $scope.showLeaders = true;
+            },
+            function(response) {
+                $scope.leadersMessage = "Error: "+response.status+" "+response.statusText;
+            });
         }])
 
 
