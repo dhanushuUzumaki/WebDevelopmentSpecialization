@@ -171,8 +171,8 @@ angular.module('conFusion.controllers', [])
 }])
 
 .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', '$ionicPopover',
-    'favoriteFactory', '$ionicModal', 'menuFactory', '$timeout',
-    function($scope, $stateParams, menuFactory, baseURL, $ionicPopover, favoriteFactory, $ionicModal, menuFactory, $timeout) {
+    'favoriteFactory', '$ionicModal', 'menuFactory', '$timeout', '$ionicListDelegate',
+    function($scope, $stateParams, menuFactory, baseURL, $ionicPopover, favoriteFactory, $ionicModal, menuFactory, $timeout, $ionicListDelegate) {
         $scope.baseURL = baseURL;
         $scope.dish = {};
         $scope.showDish = false;
@@ -214,9 +214,10 @@ angular.module('conFusion.controllers', [])
         $scope.commentData = {};
         $scope.closeComment = function() {
             $scope.modal.hide();
-        };
-        $scope.openComment = function() {
+            $ionicListDelegate.closeOptionButtons();
             $scope.popover.hide();
+        };
+        $scope.openComment = function() {            
             $scope.modal.show();
         };
         $scope.doSubmitComment = function() {
