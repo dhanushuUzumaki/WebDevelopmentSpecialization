@@ -190,7 +190,7 @@ angular.module('conFusion.controllers', [])
                     $scope.message = "Error: " + response.status + " " + response.statusText;
                 }
             );
-        $ionicPopover.fromTemplateUrl('../templates/popoveroptions.html', {
+        $ionicPopover.fromTemplateUrl('../templates/dish-detail-popover.html', {
             scope: $scope
         }).then(function(popover) {
             console.log("done");
@@ -206,7 +206,7 @@ angular.module('conFusion.controllers', [])
             $scope.popover.hide();
         };
 
-        $ionicModal.fromTemplateUrl('templates/comment.html', {
+        $ionicModal.fromTemplateUrl('templates/dish-comment.html', {
             scope: $scope
         }).then(function(modal) {
             $scope.modal = modal;
