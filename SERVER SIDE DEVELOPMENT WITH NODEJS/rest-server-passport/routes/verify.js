@@ -34,3 +34,14 @@ exports.verifyOrdinaryUser = function (req, res, next) {
         return next(err);
     }
 };
+
+exports.verifyAdmin = function(req, res, next) {
+    if(!req.decoded._doc.admin){
+        var err = new Error("You are not authorized to perform this action.");
+        err.status = 403;
+        return next(err);
+    }
+    else{
+        next();
+    }
+}
