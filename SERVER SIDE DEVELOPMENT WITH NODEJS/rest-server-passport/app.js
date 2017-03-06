@@ -21,18 +21,19 @@ var users = require('./routes/users');
 var dishRouter = require('./routes/dishRouter');
 var promoRouter = require('./routes/promotionRouter');
 var leaderRouter = require('./routes/leadershipRouter');
+var favoriteRouter = require('./routes/favoritesRouter');
 
 var app = express();
 
 // Secure traffic only
-app.all('*', function(req, res, next){
-    console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
-  if (req.secure) {
-    return next();
-  };
+// app.all('*', function(req, res, next){
+//     console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
+//   if (req.secure) {
+//     return next();
+//   };
 
- res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
-});
+//  res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,7 +55,7 @@ app.use('/users', users);
 app.use('/dishes',dishRouter);
 app.use('/promotions',promoRouter);
 app.use('/leadership',leaderRouter);
-
+app.use('/favorites',favoriteRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

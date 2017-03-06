@@ -26,4 +26,14 @@ User.methods.getName = function() {
 
 User.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('User', User);
+var U;
+
+if (mongoose.models.User) {
+  U = mongoose.model('User');
+} else {
+  U = mongoose.model('User', User);
+}
+
+module.exports = U;
+
+// module.exports = mongoose.model('User', User);

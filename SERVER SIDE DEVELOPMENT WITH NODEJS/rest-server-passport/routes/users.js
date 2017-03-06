@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var User = require('../models/user');
+var User = require('../models/User');
 var Verify    = require('./verify');
 
 /* GET users listing. */
@@ -10,6 +10,11 @@ router.get('/', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res
     if(err) throw err;
     res.json(Users);
   });
+});
+
+router.post("/",function(req,res,next) {
+  if (err) throw err;
+  console.log("hi");
 });
 
 router.post('/register', function(req, res) {
